@@ -51,7 +51,7 @@ stateDiagram-v2
 
     Attack --> Idle: fim da animação
     SpecialAttack --> Idle: fim da animação
-    Hurt --> Idle: fim da animação
+    Take Damage --> Idle: fim da animação
 
     Die --> [*]
 ```
@@ -67,7 +67,7 @@ stateDiagram-v2
 | **CrouchRun** | Agachado e em movimento, com velocidade reduzida. |
 | **Attack** | Ataque na direção em que o personagem está olhando. O movimento é bloqueado durante a animação. |
 | **SpecialAttack** | Ataque especial, com comportamento idêntico ao Attack, porém com animação e tecla próprias. |
-| **Hurt** | Reação ao dano causado pela colisão com um inimigo. |
+| **Take Damage** | Reação ao dano causado pela colisão com um inimigo. |
 | **Die** | **Estado terminal**: não possui nenhuma transição de saída. Uma vez alcançado, a máquina permanece nele até a cena ser recarregada. |
 
 ### Parâmetros do Animator
@@ -97,7 +97,6 @@ stateDiagram-v2
 | **Ataque especial** | `F` | Executa o ataque especial, seguindo a mesma lógica do ataque comum: ocorre na direção em que o personagem está olhando e bloqueia o movimento até o fim da animação. |
 | **Tomar dano** | *(colisão)* | O estado de dano não possui tecla: ele é acionado automaticamente ao colidir com um objeto marcado com a tag `Enemy`. Após sofrer dano, o personagem fica invulnerável por 1 segundo, evitando que a animação reinicie a cada frame enquanto permanecer encostado no inimigo. |
 | **Morrer** | `K` | Aciona o estado de morte. Por se tratar de uma demonstração da máquina de estados, a morte é disparada diretamente por uma tecla. Após a morte, todos os demais comandos são ignorados. |
-| **Reiniciar** | `R` | Recarrega a cena atual. Necessário para testar novamente a morte, já que Die é um estado terminal. |
 
 ---
 

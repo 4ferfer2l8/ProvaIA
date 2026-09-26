@@ -127,4 +127,4 @@ Assets/
 
 ## Autoria
 
-Trabalho desenvolvido para a disciplina de `[NOME DA DISCIPLINA]`.
+Trabalho desenvolvido para a disciplina de `Inteligência Artificial`.

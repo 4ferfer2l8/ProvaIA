@@ -51,7 +51,7 @@ stateDiagram-v2
 
     Attack --> Idle: fim da animação
     SpecialAttack --> Idle: fim da animação
-    Take Damage --> Idle: fim da animação
+    TakeDamage --> Idle: fim da animação
 
     Die --> [*]
 ```

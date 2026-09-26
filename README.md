@@ -84,14 +84,6 @@ stateDiagram-v2
 | `hurt` | Trigger | Dispara o estado de dano. |
 | `die` | Trigger | Dispara o estado de morte. |
 
-### Observações sobre a implementação
-
-- **Any State:** Attack, SpecialAttack, Hurt e Die são alcançáveis a partir de qualquer estado, já que essas ações podem ocorrer com o personagem parado, andando, correndo ou agachado.
-- **Retorno por Exit Time:** as transições `Attack → Idle`, `SpecialAttack → Idle` e `Hurt → Idle` usam *Has Exit Time*, aguardando o término da animação. Todas as demais transições têm o *Exit Time* desmarcado e duração zero, para uma resposta imediata ao input.
-- **Sub-State Machine:** CrouchIdle e CrouchRun estão agrupados em uma sub-máquina chamada **Crouch**, caracterizando uma máquina de estados hierárquica.
-- **Blend Trees 2D:** cada estado é um Blend Tree do tipo *2D Simple Directional*, contendo os 8 clips direcionais. Dessa forma, a direção não gera novos estados na máquina — ela é resolvida internamente por cada estado.
-- **Divisão de responsabilidades:** o script apenas lê o input e atualiza os parâmetros. Quem decide as transições entre os estados é exclusivamente o Animator.
-
 ---
 
 ## Controles

@@ -46,11 +46,13 @@ stateDiagram-v2
 
     AnyState --> Attack: attack (trigger)
     AnyState --> SpecialAttack: specialAttack (trigger)
+    AnyState --> Rolling: roll (trigger)
     AnyState --> TakeDamage: hurt (trigger)
     AnyState --> Die: die (trigger)
 
     Attack --> Idle: fim da animação
     SpecialAttack --> Idle: fim da animação
+    Rolling --> Idle: fim da animação
     TakeDamage --> Idle: fim da animação
 
     Die --> [*]
@@ -67,6 +69,7 @@ stateDiagram-v2
 | **CrouchRun** | Agachado e em movimento, com velocidade reduzida. |
 | **Attack** | Ataque na direção em que o personagem está olhando. O movimento é bloqueado durante a animação. |
 | **SpecialAttack** | Ataque especial, com comportamento idêntico ao Attack, porém com animação e tecla próprias. |
+| **Rolling** | Rolamento na direção em que o personagem está olhando. Ao terminar a animação, a máquina retorna ao Idle. |
 | **Take Damage** | Reação ao dano causado pela colisão com um inimigo. |
 | **Die** | **Estado terminal**: não possui nenhuma transição de saída. Uma vez alcançado, a máquina permanece nele até a cena ser recarregada. |
 
@@ -81,6 +84,7 @@ stateDiagram-v2
 | `isCrouching` | Bool | Verdadeiro enquanto o personagem está agachado. |
 | `attack` | Trigger | Dispara o estado de ataque. |
 | `specialAttack` | Trigger | Dispara o estado de ataque especial. |
+| `roll` | Trigger | Dispara o estado de rolamento. |
 | `hurt` | Trigger | Dispara o estado de dano. |
 | `die` | Trigger | Dispara o estado de morte. |
 
@@ -95,6 +99,7 @@ stateDiagram-v2
 | **Agachar** | `Ctrl` esquerdo | Alterna entre agachado e em pé. Agachado, o personagem continua podendo se mover, porém com velocidade reduzida. O agachamento tem prioridade sobre a corrida: se Shift e Ctrl forem pressionados juntos, o personagem permanece agachado. |
 | **Atacar** | `X` | Executa o ataque na direção em que o personagem está olhando. O movimento fica bloqueado até o fim da animação, e novos ataques são ignorados durante esse período. |
 | **Ataque especial** | `F` | Executa o ataque especial, seguindo a mesma lógica do ataque comum: ocorre na direção em que o personagem está olhando e bloqueia o movimento até o fim da animação. |
+| **Rolar** | `Espaço` | Executa o rolamento na direção em que o personagem está olhando. O estado é acionado por trigger e se encerra automaticamente ao término da animação. |
 | **Tomar dano** | *(colisão)* | O estado de dano não possui tecla: ele é acionado automaticamente ao colidir com um objeto marcado com a tag `Enemy`. Após sofrer dano, o personagem fica invulnerável por 1 segundo, evitando que a animação reinicie a cada frame enquanto permanecer encostado no inimigo. |
 | **Morrer** | `K` | Aciona o estado de morte. Por se tratar de uma demonstração da máquina de estados, a morte é disparada diretamente por uma tecla. Após a morte, todos os demais comandos são ignorados. |
 

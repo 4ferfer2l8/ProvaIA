@@ -46,7 +46,7 @@ stateDiagram-v2
 
     AnyState --> Attack: attack (trigger)
     AnyState --> SpecialAttack: specialAttack (trigger)
-    AnyState --> Hurt: hurt (trigger)
+    AnyState --> TakeDamage: hurt (trigger)
     AnyState --> Die: die (trigger)
 
     Attack --> Idle: fim da animação

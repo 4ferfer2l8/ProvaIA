@@ -1,4 +1,4 @@
-# [Nome do Projeto]
+# Barbarians
 
 Jogo 2D top-down desenvolvido em Unity, com o comportamento do personagem controlado por uma **Máquina de Estados Finitos (FSM)** implementada no Animator.
 

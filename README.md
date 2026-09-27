@@ -111,7 +111,7 @@ stateDiagram-v2
    ```bash
    git clone [URL_DO_REPOSITORIO]
    ```
-2. Abra o projeto pelo **Unity Hub** (versão `[INFORMAR_VERSÃO]`).
+2. Abra o projeto pelo **Unity Hub**.
 3. Abra a cena principal em `Assets/Scenes/`.
 4. Pressione **Play**.
 

@@ -21,40 +21,40 @@ O vídeo demonstra todas as animações do personagem e as transições entre os
 ```mermaid
 stateDiagram-v2
     direction LR
-
+ 
     [*] --> Idle
-
-    Idle --> Walk: isMoving = true
-    Walk --> Idle: isMoving = false
-
-    Walk --> Run: isRunning = true
-    Run --> Walk: isRunning = false
-    Run --> Idle: isMoving = false
-
+ 
+    Idle --> Walk: WASD / setas
+    Walk --> Idle: soltar WASD
+ 
+    Walk --> Run: segurar Shift
+    Run --> Walk: soltar Shift
+    Run --> Idle: soltar WASD
+ 
     state Crouch {
         direction LR
-        CrouchIdle --> CrouchRun: isMoving = true
-        CrouchRun --> CrouchIdle: isMoving = false
+        CrouchIdle --> CrouchRun: WASD / setas
+        CrouchRun --> CrouchIdle: soltar WASD
     }
-
-    Idle --> CrouchIdle: isCrouching = true
-    CrouchIdle --> Idle: isCrouching = false
-    Walk --> CrouchRun: isCrouching = true
-    CrouchRun --> Walk: isCrouching = false
-
+ 
+    Idle --> CrouchIdle: Ctrl
+    CrouchIdle --> Idle: Ctrl
+    Walk --> CrouchRun: Ctrl
+    CrouchRun --> Walk: Ctrl
+ 
     state "Any State" as AnyState
-
-    AnyState --> Attack: attack (trigger)
-    AnyState --> SpecialAttack: specialAttack (trigger)
-    AnyState --> Rolling: roll (trigger)
-    AnyState --> TakeDamage: hurt (trigger)
-    AnyState --> Die: die (trigger)
-
+ 
+    AnyState --> Attack: X
+    AnyState --> SpecialAttack: F
+    AnyState --> Rolling: Espaço
+    AnyState --> Hurt: colisão com inimigo
+    AnyState --> Die: K
+ 
     Attack --> Idle: fim da animação
     SpecialAttack --> Idle: fim da animação
     Rolling --> Idle: fim da animação
-    TakeDamage --> Idle: fim da animação
-
+    Hurt --> Idle: fim da animação
+ 
     Die --> [*]
 ```
 

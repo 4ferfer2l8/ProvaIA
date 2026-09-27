@@ -8,7 +8,7 @@ O personagem possui animações em 8 direções (4 retas + 4 diagonais) para cad
 
 ## Vídeo da gameplay
 
-🎥 **Link:** [assistir no YouTube]([https://youtu.be/zQCcJEzbMaw])
+🎥 **Link:** [assistir no YouTube](https://youtu.be/zQCcJEzbMaw)
 
 O vídeo demonstra todas as animações do personagem e as transições entre os estados da máquina.
 

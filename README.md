@@ -28,7 +28,7 @@ O vídeo demonstra todas as animações do personagem e as transições entre os
 | **Walk** | Movimento em velocidade normal, em qualquer uma das 8 direções. |
 | **Run** | Movimento acelerado. Só é alcançado a partir do Walk. |
 | **CrouchIdle** | Agachado e parado. |
-| **CrouchRun** | Agachado e em movimento, com velocidade reduzida. |
+| **CrouchWalk** | Agachado e em movimento, com velocidade reduzida. |
 | **Attack** | Ataque na direção em que o personagem está olhando. O movimento é bloqueado durante a animação. |
 | **SpecialAttack** | Ataque especial, com comportamento idêntico ao Attack, porém com animação e tecla próprias. |
 | **Rolling** | Rolamento na direção em que o personagem está olhando.|

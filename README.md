@@ -18,45 +18,7 @@ O vídeo demonstra todas as animações do personagem e as transições entre os
 
 ### Diagrama
 
-```mermaid
-stateDiagram-v2
-    direction LR
- 
-    [*] --> Idle
- 
-    Idle --> Walk: WASD / setas
-    Walk --> Idle: soltar WASD
- 
-    Walk --> Run: segurar Shift
-    Run --> Walk: soltar Shift
-    Run --> Idle: soltar WASD
- 
-    state Crouch {
-        direction LR
-        CrouchIdle --> CrouchRun: WASD / setas
-        CrouchRun --> CrouchIdle: soltar WASD
-    }
- 
-    Idle --> CrouchIdle: Ctrl
-    CrouchIdle --> Idle: Ctrl
-    Walk --> CrouchRun: Ctrl
-    CrouchRun --> Walk: Ctrl
- 
-    state "Any State" as AnyState
- 
-    AnyState --> Attack: X
-    AnyState --> SpecialAttack: F
-    AnyState --> Rolling: Espaço
-    AnyState --> Hurt: colisão com inimigo
-    AnyState --> Die: K
- 
-    Attack --> Idle: fim da animação
-    SpecialAttack --> Idle: fim da animação
-    Rolling --> Idle: fim da animação
-    Hurt --> Idle: fim da animação
- 
-    Die --> [*]
-```
+<img width="1905" height="524" alt="Diagrama Máquina de Estados" src="https://github.com/user-attachments/assets/03041ad1-6c4a-44a0-9799-0631324a1272" />
 
 ### Descrição dos estados
 

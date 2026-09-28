@@ -31,7 +31,7 @@ O vídeo demonstra todas as animações do personagem e as transições entre os
 | **CrouchRun** | Agachado e em movimento, com velocidade reduzida. |
 | **Attack** | Ataque na direção em que o personagem está olhando. O movimento é bloqueado durante a animação. |
 | **SpecialAttack** | Ataque especial, com comportamento idêntico ao Attack, porém com animação e tecla próprias. |
-| **Rolling** | Rolamento na direção em que o personagem está olhando. Ao terminar a animação, a máquina retorna ao Idle. |
+| **Rolling** | Rolamento na direção em que o personagem está olhando.|
 | **Take Damage** | Reação ao dano causado pela colisão com um inimigo. |
 | **Die** | **Estado terminal**: não possui nenhuma transição de saída. Uma vez alcançado, a máquina permanece nele até a cena ser recarregada. |
 

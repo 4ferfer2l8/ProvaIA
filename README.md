@@ -1,4 +1,4 @@
-# [Nome do Projeto]
+# Barbarians
 
 Jogo 2D top-down desenvolvido em Unity, com o comportamento do personagem controlado por uma **Máquina de Estados Finitos (FSM)** implementada no Animator.
 
@@ -8,7 +8,7 @@ O personagem possui animações em 8 direções (4 retas + 4 diagonais) para cad
 
 ## Vídeo da gameplay
 
-🎥 **Link:** [assistir no YouTube](COLE_O_LINK_AQUI)
+🎥 **Link:** [assistir no YouTube](https://youtu.be/zQCcJEzbMaw)
 
 O vídeo demonstra todas as animações do personagem e as transições entre os estados da máquina.
 
@@ -21,38 +21,40 @@ O vídeo demonstra todas as animações do personagem e as transições entre os
 ```mermaid
 stateDiagram-v2
     direction LR
-
+ 
     [*] --> Idle
-
-    Idle --> Walk: isMoving = true
-    Walk --> Idle: isMoving = false
-
-    Walk --> Run: isRunning = true
-    Run --> Walk: isRunning = false
-    Run --> Idle: isMoving = false
-
+ 
+    Idle --> Walk: WASD / setas
+    Walk --> Idle: soltar WASD
+ 
+    Walk --> Run: segurar Shift
+    Run --> Walk: soltar Shift
+    Run --> Idle: soltar WASD
+ 
     state Crouch {
         direction LR
-        CrouchIdle --> CrouchRun: isMoving = true
-        CrouchRun --> CrouchIdle: isMoving = false
+        CrouchIdle --> CrouchRun: WASD / setas
+        CrouchRun --> CrouchIdle: soltar WASD
     }
-
-    Idle --> CrouchIdle: isCrouching = true
-    CrouchIdle --> Idle: isCrouching = false
-    Walk --> CrouchRun: isCrouching = true
-    CrouchRun --> Walk: isCrouching = false
-
+ 
+    Idle --> CrouchIdle: Ctrl
+    CrouchIdle --> Idle: Ctrl
+    Walk --> CrouchRun: Ctrl
+    CrouchRun --> Walk: Ctrl
+ 
     state "Any State" as AnyState
-
-    AnyState --> Attack: attack (trigger)
-    AnyState --> SpecialAttack: specialAttack (trigger)
-    AnyState --> Hurt: hurt (trigger)
-    AnyState --> Die: die (trigger)
-
+ 
+    AnyState --> Attack: X
+    AnyState --> SpecialAttack: F
+    AnyState --> Rolling: Espaço
+    AnyState --> Hurt: colisão com inimigo
+    AnyState --> Die: K
+ 
     Attack --> Idle: fim da animação
     SpecialAttack --> Idle: fim da animação
+    Rolling --> Idle: fim da animação
     Hurt --> Idle: fim da animação
-
+ 
     Die --> [*]
 ```
 
@@ -67,7 +69,8 @@ stateDiagram-v2
 | **CrouchRun** | Agachado e em movimento, com velocidade reduzida. |
 | **Attack** | Ataque na direção em que o personagem está olhando. O movimento é bloqueado durante a animação. |
 | **SpecialAttack** | Ataque especial, com comportamento idêntico ao Attack, porém com animação e tecla próprias. |
-| **Hurt** | Reação ao dano causado pela colisão com um inimigo. |
+| **Rolling** | Rolamento na direção em que o personagem está olhando. Ao terminar a animação, a máquina retorna ao Idle. |
+| **Take Damage** | Reação ao dano causado pela colisão com um inimigo. |
 | **Die** | **Estado terminal**: não possui nenhuma transição de saída. Uma vez alcançado, a máquina permanece nele até a cena ser recarregada. |
 
 ### Parâmetros do Animator
@@ -81,16 +84,9 @@ stateDiagram-v2
 | `isCrouching` | Bool | Verdadeiro enquanto o personagem está agachado. |
 | `attack` | Trigger | Dispara o estado de ataque. |
 | `specialAttack` | Trigger | Dispara o estado de ataque especial. |
+| `roll` | Trigger | Dispara o estado de rolamento. |
 | `hurt` | Trigger | Dispara o estado de dano. |
 | `die` | Trigger | Dispara o estado de morte. |
-
-### Observações sobre a implementação
-
-- **Any State:** Attack, SpecialAttack, Hurt e Die são alcançáveis a partir de qualquer estado, já que essas ações podem ocorrer com o personagem parado, andando, correndo ou agachado.
-- **Retorno por Exit Time:** as transições `Attack → Idle`, `SpecialAttack → Idle` e `Hurt → Idle` usam *Has Exit Time*, aguardando o término da animação. Todas as demais transições têm o *Exit Time* desmarcado e duração zero, para uma resposta imediata ao input.
-- **Sub-State Machine:** CrouchIdle e CrouchRun estão agrupados em uma sub-máquina chamada **Crouch**, caracterizando uma máquina de estados hierárquica.
-- **Blend Trees 2D:** cada estado é um Blend Tree do tipo *2D Simple Directional*, contendo os 8 clips direcionais. Dessa forma, a direção não gera novos estados na máquina — ela é resolvida internamente por cada estado.
-- **Divisão de responsabilidades:** o script apenas lê o input e atualiza os parâmetros. Quem decide as transições entre os estados é exclusivamente o Animator.
 
 ---
 
@@ -103,9 +99,9 @@ stateDiagram-v2
 | **Agachar** | `Ctrl` esquerdo | Alterna entre agachado e em pé. Agachado, o personagem continua podendo se mover, porém com velocidade reduzida. O agachamento tem prioridade sobre a corrida: se Shift e Ctrl forem pressionados juntos, o personagem permanece agachado. |
 | **Atacar** | `X` | Executa o ataque na direção em que o personagem está olhando. O movimento fica bloqueado até o fim da animação, e novos ataques são ignorados durante esse período. |
 | **Ataque especial** | `F` | Executa o ataque especial, seguindo a mesma lógica do ataque comum: ocorre na direção em que o personagem está olhando e bloqueia o movimento até o fim da animação. |
+| **Rolar** | `Espaço` | Executa o rolamento na direção em que o personagem está olhando. O estado é acionado por trigger e se encerra automaticamente ao término da animação. |
 | **Tomar dano** | *(colisão)* | O estado de dano não possui tecla: ele é acionado automaticamente ao colidir com um objeto marcado com a tag `Enemy`. Após sofrer dano, o personagem fica invulnerável por 1 segundo, evitando que a animação reinicie a cada frame enquanto permanecer encostado no inimigo. |
 | **Morrer** | `K` | Aciona o estado de morte. Por se tratar de uma demonstração da máquina de estados, a morte é disparada diretamente por uma tecla. Após a morte, todos os demais comandos são ignorados. |
-| **Reiniciar** | `R` | Recarrega a cena atual. Necessário para testar novamente a morte, já que Die é um estado terminal. |
 
 ---
 
@@ -115,7 +111,7 @@ stateDiagram-v2
    ```bash
    git clone [URL_DO_REPOSITORIO]
    ```
-2. Abra o projeto pelo **Unity Hub** (versão `[INFORMAR_VERSÃO]`).
+2. Abra o projeto pelo **Unity Hub**.
 3. Abra a cena principal em `Assets/Scenes/`.
 4. Pressione **Play**.
 
@@ -135,4 +131,4 @@ Assets/
 
 ## Autoria
 
-Trabalho desenvolvido para a disciplina de `[NOME DA DISCIPLINA]`.
+Trabalho desenvolvido para a disciplina de `Inteligência Artificial`.
